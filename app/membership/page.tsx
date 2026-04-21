@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const members = [
   { id: 'GIFF-0001', name: 'Kwame Asante',     company: 'Asante Freight Ltd',      email: 'k.asante@freight.gh',    phone: '0244 123 456', status: 'Active',     tier: 'Full Member', joined: 'Jan 2019', renewal: 'Jan 2027', paid: true },
@@ -164,6 +165,7 @@ function ViewModal({ member, onClose }: { member: Member; onClose: () => void })
 }
 
 export default function MembershipPage() {
+  const router = useRouter();
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('All');
   const [showRegister, setShowRegister] = useState(false);
@@ -185,13 +187,18 @@ export default function MembershipPage() {
 
   return (
     <div>
-      <div className="page-title-area">
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--gray-900)', letterSpacing: '-0.02em' }}>
-          Membership Management
-        </h1>
-        <p style={{ fontSize: 13.5, color: 'var(--gray-500)', marginTop: 3 }}>
-          Register, manage and communicate with GIFF members
-        </p>
+      <div className="page-title-area" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--gray-900)', letterSpacing: '-0.02em' }}>
+            Membership Management
+          </h1>
+          <p style={{ fontSize: 13.5, color: 'var(--gray-500)', marginTop: 3 }}>
+            Register, manage and communicate with GIFF members
+          </p>
+        </div>
+        <button className="btn btn-dark" style={{ marginTop: 4 }} onClick={() => setShowRegister(true)}>
+          + Register Member
+        </button>
       </div>
 
       <div className="page-body">
@@ -258,7 +265,7 @@ export default function MembershipPage() {
               </thead>
               <tbody>
                 {filtered.map((m) => (
-                  <tr key={m.id}>
+                  <tr key={m.id} onClick={() => router.push('/membership/GIFF-0005')} style={{ cursor: 'pointer' }}>
                     <td><span className="mono muted">{m.id}</span></td>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>

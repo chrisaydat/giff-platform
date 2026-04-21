@@ -13,12 +13,18 @@ const navItems: { label: string; href: string; icon: () => React.ReactElement }[
   { label: 'Audit',      href: '/audit',      icon: AuditIcon },
 ];
 
-function ShieldIcon() {
+function InstitutionIcon() {
   return (
-    <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-      <path d="M15 3L5 7v9c0 6 4.7 11.6 10 13 5.3-1.4 10-7 10-13V7L15 3z" fill="#0570de" opacity="0.9"/>
-      <path d="M10.5 15.5l3 3L19.5 12" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
+    <div style={{
+      width: 32, height: 32, borderRadius: 6,
+      background: 'rgba(255,255,255,0.06)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+    }}>
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+        <path d="M2 7h16M4 7V16M8 7V16M12 7V16M16 7V16M2 16h16M10 2L2 7h16L10 2z"
+          stroke="rgba(255,255,255,0.7)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </div>
   );
 }
 
@@ -130,10 +136,10 @@ export default function Sidebar() {
       {/* Logo */}
       <div style={{ padding: '20px 20px 18px', borderBottom: '1px solid rgba(255,255,255,0.06)', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <ShieldIcon />
+          <InstitutionIcon />
           <div>
             <div style={{ color: '#fff', fontWeight: 700, fontSize: 14, lineHeight: '1.2', letterSpacing: '-0.01em' }}>GIFF Portal</div>
-            <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, marginTop: 1 }}>The Digital Estate</div>
+            <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, marginTop: 1, textTransform: 'uppercase', letterSpacing: '0.1em' }}>The Digital Estate</div>
           </div>
         </div>
       </div>
@@ -175,18 +181,11 @@ export default function Sidebar() {
         {/* Divider */}
         <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '10px 2px' }} />
 
-        {/* User profile */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '2px 8px' }}>
-          <div style={{
-            width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
-            background: 'linear-gradient(135deg, #0570de 0%, #7c3aed 100%)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#fff', fontSize: 11, fontWeight: 700,
-          }}>EM</div>
-          <div style={{ minWidth: 0 }}>
-            <div style={{ color: 'rgba(255,255,255,0.9)', fontSize: 12.5, fontWeight: 600, lineHeight: '1.2' }}>E. Mensah</div>
-            <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, marginTop: 1 }}>System Administrator</div>
-          </div>
+        {/* System Status */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 8px' }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10b981', flexShrink: 0 }} />
+          <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11 }}>System Status</span>
+          <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 11, fontWeight: 500 }}>• Online</span>
         </div>
       </div>
     </aside>

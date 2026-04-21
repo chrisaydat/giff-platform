@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const invoices = [
   { initials: 'AL', color: '#0570de', member: 'Alpha Logistics Ltd', ref: 'GIFF-2023-001', type: 'Annual Dues 2023', amount: '12,500.00', due: 'Jan 15, 2023', dueAlert: false, status: 'Paid', statusClass: 'badge-green' },
@@ -39,6 +40,7 @@ function DonutProgress({ pct }: { pct: number }) {
 }
 
 export default function DuesPage() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabKey>('all');
 
   return (
@@ -156,7 +158,7 @@ export default function DuesPage() {
               </thead>
               <tbody>
                 {invoices.map((inv) => (
-                  <tr key={inv.ref}>
+                  <tr key={inv.ref} onClick={() => router.push('/dues/RCT-2023-8829')} style={{ cursor: 'pointer' }}>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <div style={{

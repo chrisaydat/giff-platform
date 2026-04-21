@@ -29,8 +29,24 @@
   --gray-800: #1f2937;
   --gray-900: #111827;
 
-  --sidebar-bg: #0a0f1e;
+  --sidebar-bg: #061427;
   --sidebar-w:  232px;
+
+  /* Design System — Dignified Simplicity */
+  --surface:            #f6fafe;
+  --surface-low:        #f0f4f8;
+  --surface-lowest:     #ffffff;
+  --surface-high:       #dde3ea;
+  --primary:            #061427;
+  --primary-container:  #1c293d;
+  --on-surface:         #171c1f;
+  --on-surface-variant: #43474d;
+  --outline-variant:    rgba(67,71,77,0.12);
+  --ff-serif:           var(--font-serif, 'Noto Serif', Georgia, 'Times New Roman', serif);
+  --ff-sans:            var(--font-sans, 'Public Sans', -apple-system, 'Inter', sans-serif);
+  --success-bg:   #adcebe;  --success-text:  #022016;
+  --pending-bg:   #accaea;  --pending-text:  #001d33;
+  --shadow-ambient: 0 24px 32px rgba(23,28,31,0.05), 0 4px 8px rgba(23,28,31,0.03);
   --radius:     8px;
   --radius-lg:  12px;
   --shadow-xs:  0 1px 2px rgba(0,0,0,0.05);
@@ -44,9 +60,9 @@
 html { font-size: 14px; }
 
 body {
-  background: var(--gray-50);
-  color: var(--gray-900);
-  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background: var(--surface);
+  color: var(--on-surface);
+  font-family: var(--ff-sans);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -355,14 +371,16 @@ tbody tr:hover td { background: var(--gray-50); }
 }
 
 .modal {
-  background: #fff;
+  background: rgba(246,250,254,0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-xl);
   width: 480px;
   max-width: 96vw;
   max-height: 90vh;
   overflow-y: auto;
-  border: 1px solid var(--gray-200);
+  border: 1px solid var(--outline-variant);
 }
 
 .modal-header {
@@ -450,8 +468,11 @@ tbody tr:hover td { background: var(--gray-50); }
 }
 
 /* ─── Dark Button ────────────────────────────────────────────────────────── */
-.btn-dark { background: var(--gray-900); color: #fff; border: none; }
-.btn-dark:hover { background: var(--gray-700); }
+.btn-dark {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%);
+  color: #fff; border: none;
+}
+.btn-dark:hover { background: var(--primary-container); }
 
 /* ─── Pill Tabs ──────────────────────────────────────────────────────────── */
 .tab-pills { display: flex; gap: 6px; }
@@ -517,3 +538,100 @@ tbody tr:hover td { background: var(--gray-50); }
   font-size: 12.5px; font-weight: 500; cursor: pointer; transition: border-color 0.1s;
 }
 .filter-btn:hover { border-color: var(--gray-400); }
+
+/* ─── Phase 2: Dignified Simplicity Utilities ────────────────────────────── */
+
+/* Serif heading */
+.serif { font-family: var(--ff-serif); letter-spacing: -0.015em; }
+
+/* No-border card using surface shift */
+.card-surface {
+  background: var(--surface-lowest);
+  border-radius: 6px;
+  border: 1px solid var(--outline-variant);
+  box-shadow: var(--shadow-ambient);
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(246,250,254,0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* Tonal gradient */
+.tonal-bleed {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%);
+}
+
+/* Premium badges */
+.badge-success { background: var(--success-bg); color: var(--success-text); }
+.badge-pending { background: var(--pending-bg); color: var(--pending-text); }
+
+/* Section heading (serif, spaced) */
+.section-heading {
+  font-family: var(--ff-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--on-surface);
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+  margin-top: 32px;
+}
+.section-heading:first-child { margin-top: 0; }
+
+/* Small uppercase field label */
+.field-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--on-surface-variant);
+  margin-bottom: 3px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--on-surface-variant);
+  margin-bottom: 12px;
+}
+.breadcrumb a { color: var(--on-surface-variant); text-decoration: none; }
+.breadcrumb a:hover { color: var(--on-surface); }
+.breadcrumb-sep { color: var(--outline-variant); font-size: 10px; }
+
+/* Pill / chip tag */
+.pill-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: var(--surface-low);
+  color: var(--on-surface-variant);
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid var(--outline-variant);
+}
+
+/* State-change timeline row */
+.state-row {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--outline-variant);
+}
+.state-row:last-child { border-bottom: none; }
+
+/* Receipt document */
+.receipt {
+  background: var(--surface-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.receipt-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%);
+  padding: 24px;
+  color: rgba(255,255,255,0.9);
+}
