@@ -1,32 +1,26 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const nav = [
-  {
-    section: 'Overview',
-    items: [
-      { label: 'Dashboard', href: '/dashboard', icon: DashIcon },
-    ],
-  },
-  {
-    section: 'Core Modules',
-    items: [
-      { label: 'Membership', href: '/membership', icon: MembersIcon },
-      { label: 'Dues & Fees', href: '/dues', icon: DuesIcon },
-      { label: 'Accounts', href: '/accounts', icon: AccountsIcon },
-      { label: 'HR Management', href: '/hr', icon: HRIcon },
-    ],
-  },
-  {
-    section: 'System',
-    items: [
-      { label: 'Settings', href: '/settings', icon: SettingsIcon },
-      { label: 'Audit Trail', href: '/audit', icon: AuditIcon },
-    ],
-  },
+const navItems: { label: string; href: string; icon: () => React.ReactElement }[] = [
+  { label: 'Dashboard',  href: '/dashboard',  icon: DashIcon },
+  { label: 'Membership', href: '/membership', icon: MembersIcon },
+  { label: 'Dues',       href: '/dues',       icon: DuesIcon },
+  { label: 'Accounts',   href: '/accounts',   icon: AccountsIcon },
+  { label: 'HR',         href: '/hr',         icon: HRIcon },
+  { label: 'Audit',      href: '/audit',      icon: AuditIcon },
 ];
+
+function ShieldIcon() {
+  return (
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+      <path d="M15 3L5 7v9c0 6 4.7 11.6 10 13 5.3-1.4 10-7 10-13V7L15 3z" fill="#0570de" opacity="0.9"/>
+      <path d="M10.5 15.5l3 3L19.5 12" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
 
 function DashIcon() {
   return (
@@ -97,123 +91,102 @@ function AuditIcon() {
   );
 }
 
+function NavLink({ href, icon: Icon, label }: { href: string; icon: () => React.ReactElement; label: string }) {
+  const pathname = usePathname();
+  const active = pathname === href || pathname.startsWith(href + '/');
+  return (
+    <Link
+      href={href}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 9,
+        padding: '8px 10px', borderRadius: 7, marginBottom: 1,
+        textDecoration: 'none',
+        background: active ? 'rgba(5,112,222,0.18)' : 'transparent',
+        color: active ? '#60a5fa' : 'rgba(255,255,255,0.5)',
+        fontSize: 13, fontWeight: active ? 600 : 400,
+        transition: 'background 0.1s, color 0.1s', position: 'relative',
+      }}
+    >
+      {active && (
+        <span style={{
+          position: 'absolute', left: 0, top: '20%', bottom: '20%',
+          width: 3, borderRadius: '0 3px 3px 0', background: '#0570de',
+        }} />
+      )}
+      <span style={{ color: active ? '#60a5fa' : 'rgba(255,255,255,0.35)', flexShrink: 0 }}>
+        <Icon />
+      </span>
+      {label}
+    </Link>
+  );
+}
+
 export default function Sidebar() {
   const pathname = usePathname();
+  const settingsActive = pathname === '/settings';
 
   return (
     <aside className="sidebar">
       {/* Logo */}
-      <div style={{
-        padding: '20px 20px 18px',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
-        flexShrink: 0,
-      }}>
+      <div style={{ padding: '20px 20px 18px', borderBottom: '1px solid rgba(255,255,255,0.06)', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{
-            width: 32, height: 32, borderRadius: 8,
-            background: 'linear-gradient(135deg, #0570de 0%, #0460c8 100%)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 14, fontWeight: 800, color: 'white', letterSpacing: '-0.5px',
-            flexShrink: 0,
-          }}>G</div>
+          <ShieldIcon />
           <div>
             <div style={{ color: '#fff', fontWeight: 700, fontSize: 14, lineHeight: '1.2', letterSpacing: '-0.01em' }}>GIFF Portal</div>
-            <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, marginTop: 1 }}>v2.0 · 2026</div>
+            <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, marginTop: 1 }}>The Digital Estate</div>
           </div>
-        </div>
-      </div>
-
-      {/* User block */}
-      <div style={{
-        padding: '14px 20px',
-        borderBottom: '1px solid rgba(255,255,255,0.05)',
-        flexShrink: 0,
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{
-            width: 30, height: 30, borderRadius: '50%',
-            background: 'linear-gradient(135deg, #0570de 0%, #7c3aed 100%)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#fff', fontSize: 12, fontWeight: 700, flexShrink: 0,
-          }}>A</div>
-          <div style={{ minWidth: 0 }}>
-            <div style={{ color: 'rgba(255,255,255,0.9)', fontSize: 12.5, fontWeight: 600, lineHeight: '1.2' }}>Admin User</div>
-            <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, marginTop: 1 }}>Administrator</div>
-          </div>
-          <div style={{
-            marginLeft: 'auto',
-            width: 6, height: 6, borderRadius: '50%', background: '#10b981', flexShrink: 0,
-          }} />
         </div>
       </div>
 
       {/* Nav */}
-      <nav style={{ flex: 1, padding: '10px 10px', overflowY: 'auto' }}>
-        {nav.map((section) => (
-          <div key={section.section} style={{ marginBottom: 4 }}>
-            <div style={{
-              color: 'rgba(255,255,255,0.25)',
-              fontSize: 10,
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.09em',
-              padding: '10px 10px 5px',
-            }}>
-              {section.section}
-            </div>
-            {section.items.map((item) => {
-              const active = pathname === item.href || pathname.startsWith(item.href + '/');
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 9,
-                    padding: '8px 10px',
-                    borderRadius: 7,
-                    marginBottom: 1,
-                    textDecoration: 'none',
-                    background: active ? 'rgba(5,112,222,0.18)' : 'transparent',
-                    color: active ? '#60a5fa' : 'rgba(255,255,255,0.5)',
-                    fontSize: 13,
-                    fontWeight: active ? 600 : 400,
-                    transition: 'background 0.1s, color 0.1s',
-                    position: 'relative',
-                  }}
-                >
-                  {active && (
-                    <span style={{
-                      position: 'absolute',
-                      left: 0, top: '20%', bottom: '20%',
-                      width: 3, borderRadius: '0 3px 3px 0',
-                      background: '#0570de',
-                    }} />
-                  )}
-                  <span style={{ color: active ? '#60a5fa' : 'rgba(255,255,255,0.35)', flexShrink: 0 }}>
-                    <Icon />
-                  </span>
-                  {item.label}
-                </Link>
-              );
-            })}
-          </div>
+      <nav style={{ flex: 1, padding: '10px', overflowY: 'auto' }}>
+        {navItems.map((item) => (
+          <NavLink key={item.href} href={item.href} icon={item.icon} label={item.label} />
         ))}
       </nav>
 
-      {/* Footer */}
-      <div style={{
-        padding: '14px 20px',
-        borderTop: '1px solid rgba(255,255,255,0.05)',
-        flexShrink: 0,
-      }}>
-        <div style={{ color: 'rgba(255,255,255,0.25)', fontSize: 11, lineHeight: 1.5 }}>
-          Powered by <span style={{ color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>Semper Fidum</span>
-        </div>
-        <div style={{ color: 'rgba(255,255,255,0.15)', fontSize: 10, marginTop: 2, fontStyle: 'italic' }}>
-          Faithful Solutions. Lasting Impact.
+      {/* Bottom: Settings + User Profile */}
+      <div style={{ padding: '12px 10px 16px', borderTop: '1px solid rgba(255,255,255,0.06)', flexShrink: 0 }}>
+        {/* Settings link */}
+        <Link
+          href="/settings"
+          style={{
+            display: 'flex', alignItems: 'center', gap: 9,
+            padding: '8px 10px', borderRadius: 7, marginBottom: 4,
+            textDecoration: 'none',
+            background: settingsActive ? 'rgba(5,112,222,0.18)' : 'transparent',
+            color: settingsActive ? '#60a5fa' : 'rgba(255,255,255,0.5)',
+            fontSize: 13, fontWeight: settingsActive ? 600 : 400,
+            transition: 'background 0.1s, color 0.1s', position: 'relative',
+          }}
+        >
+          {settingsActive && (
+            <span style={{
+              position: 'absolute', left: 0, top: '20%', bottom: '20%',
+              width: 3, borderRadius: '0 3px 3px 0', background: '#0570de',
+            }} />
+          )}
+          <span style={{ color: settingsActive ? '#60a5fa' : 'rgba(255,255,255,0.35)', flexShrink: 0 }}>
+            <SettingsIcon />
+          </span>
+          Settings
+        </Link>
+
+        {/* Divider */}
+        <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '10px 2px' }} />
+
+        {/* User profile */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '2px 8px' }}>
+          <div style={{
+            width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
+            background: 'linear-gradient(135deg, #0570de 0%, #7c3aed 100%)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#fff', fontSize: 11, fontWeight: 700,
+          }}>EM</div>
+          <div style={{ minWidth: 0 }}>
+            <div style={{ color: 'rgba(255,255,255,0.9)', fontSize: 12.5, fontWeight: 600, lineHeight: '1.2' }}>E. Mensah</div>
+            <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, marginTop: 1 }}>System Administrator</div>
+          </div>
         </div>
       </div>
     </aside>

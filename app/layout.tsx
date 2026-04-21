@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Sidebar from "./components/Sidebar";
+import Topbar from "./components/Topbar";
 
 export const metadata: Metadata = {
   title: "GIFF Digital Platform",
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body>
         <Sidebar />
         <div className="main-content">
+          <Topbar />
           {children}
         </div>
       </body>

@@ -1,9 +1,6 @@
 export default function SettingsPage() {
   return (
     <div>
-      <div className="page-topbar">
-        <div />
-      </div>
       <div className="page-title-area">
         <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--gray-900)', letterSpacing: '-0.02em' }}>
           Settings

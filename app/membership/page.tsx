@@ -185,14 +185,6 @@ export default function MembershipPage() {
 
   return (
     <div>
-      <div className="page-topbar">
-        <div />
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button className="btn btn-secondary">Export</button>
-          <button className="btn btn-primary" onClick={() => setShowRegister(true)}>+ Register Member</button>
-        </div>
-      </div>
-
       <div className="page-title-area">
         <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--gray-900)', letterSpacing: '-0.02em' }}>
           Membership Management
