@@ -65,17 +65,16 @@ export default function AccountsPage() {
   return (
     <>
       <div className="page-title-area">
-        <h1 style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--gray-900)' }}>
-          Financial Overview
-        </h1>
-        <p style={{ color: 'var(--gray-500)', fontSize: 13.5, marginTop: 4 }}>
+        <div className="executive-eyebrow">Finance</div>
+        <h1 className="executive-display executive-display-sm">Financial Overview</h1>
+        <p className="executive-lead executive-lead-compact">
           Consolidated strategic metrics, reconciliation status, and recent ledger activity for the current fiscal quarter.
         </p>
       </div>
 
       <div className="page-body">
         {/* 3 Metric Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 24 }}>
+        <div className="executive-grid executive-grid-3 executive-section">
           {/* Card 1: dark */}
           <div className="metric-card-dark">
             <div className="flex-between" style={{ marginBottom: 8 }}>
@@ -142,12 +141,12 @@ export default function AccountsPage() {
         </div>
 
         {/* Chart + Reconciliation */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 20, marginBottom: 24 }}>
+        <div className="executive-grid executive-grid-main-aside executive-section">
           {/* Revenue Growth & Recovery */}
           <div className="card">
             <div className="card-header">
               <div>
-                <div style={{ fontWeight: 600, fontSize: 15 }}>Revenue Growth &amp; Recovery</div>
+                <div className="executive-panel-title">Revenue Growth &amp; Recovery</div>
                 <div className="muted" style={{ fontSize: 12, marginTop: 2 }}>Monthly progression vs historic average</div>
               </div>
               <a href="#" style={{ fontSize: 13, color: 'var(--blue)', textDecoration: 'none', fontWeight: 500 }}>Full Report →</a>
@@ -201,7 +200,7 @@ export default function AccountsPage() {
           <div className="card">
             <div className="card-header">
               <div>
-                <div style={{ fontWeight: 600, fontSize: 15, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div className="executive-panel-title" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <svg width="15" height="15" viewBox="0 0 16 16" fill="none" style={{ color: 'var(--blue)' }}>
                     <path d="M2 8a6 6 0 1 0 1-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
                     <polyline points="2 2 2 6 6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -241,7 +240,7 @@ export default function AccountsPage() {
         <div className="card">
           <div className="card-header">
             <div>
-              <div style={{ fontWeight: 600, fontSize: 15 }}>Recent Transactions</div>
+              <div className="executive-panel-title">Recent Transactions</div>
               <div className="muted" style={{ fontSize: 12, marginTop: 2 }}>General ledger activity across all reconciled accounts</div>
             </div>
             <div style={{ display: 'flex', gap: 6 }}>

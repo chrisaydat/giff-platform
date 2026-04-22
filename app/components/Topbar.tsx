@@ -30,57 +30,49 @@ function HelpIcon() {
 
 export default function Topbar() {
   return (
-    <div className="page-topbar" style={{ position: 'relative' }}>
+    <div className="page-topbar executive-topbar">
       {/* Left: search */}
       <div className="topbar-search">
+        <label htmlFor="executive-search" className="sr-only">Search the executive console</label>
         <span style={{ color: 'var(--gray-400)' }}><SearchIcon /></span>
-        <input placeholder="Search records..." />
+        <input id="executive-search" name="executive_search" placeholder="Search console…" autoComplete="off" />
       </div>
 
       {/* Center: role name */}
-      <span style={{
-        position: 'absolute', left: '50%', transform: 'translateX(-50%)',
-        fontSize: 13, fontWeight: 700, color: 'var(--gray-800)', letterSpacing: '-0.01em',
-        pointerEvents: 'none',
-      }}>
-        Institutional Architect
+      <span className="executive-topbar-title">
+        Executive Console
       </span>
 
       {/* Right: actions */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+      <div className="executive-topbar-actions">
         {/* Bell with badge */}
         <div className="notif-badge">
-          <button className="btn btn-ghost" style={{ padding: '0 6px', color: 'var(--gray-500)' }}>
+          <button className="btn btn-ghost" style={{ padding: '0 6px', color: 'var(--gray-500)' }} aria-label="Open executive notifications">
             <BellIcon />
           </button>
           <span className="notif-badge-count">3</span>
         </div>
 
         {/* Help */}
-        <button className="btn btn-ghost" style={{ padding: '0 6px', color: 'var(--gray-500)' }}>
+        <button className="btn btn-ghost" style={{ padding: '0 6px', color: 'var(--gray-500)' }} aria-label="Open executive help">
           <HelpIcon />
         </button>
 
         {/* Support */}
-        <a href="#" style={{ fontSize: 13, color: 'var(--gray-600)', textDecoration: 'none', fontWeight: 500 }}>
-          Support
+        <a href="/executive/settings" className="executive-topbar-link">
+          Settings
         </a>
 
         {/* Execute Action */}
-        <button className="btn btn-dark" style={{ gap: 4 }}>
-          Execute Action
+        <a href="/dashboard" className="btn btn-dark" style={{ gap: 4 }}>
+          View Member Side
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-        </button>
+        </a>
 
         {/* User avatar */}
-        <div style={{
-          width: 32, height: 32, borderRadius: '50%',
-          background: 'linear-gradient(135deg, #0570de 0%, #7c3aed 100%)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          color: '#fff', fontSize: 11, fontWeight: 700, flexShrink: 0, cursor: 'pointer',
-        }}>EM</div>
+        <div className="executive-avatar">EC</div>
       </div>
     </div>
   );

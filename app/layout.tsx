@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Serif, Public_Sans } from "next/font/google";
 import "./globals.css";
-import Sidebar from "./components/Sidebar";
-import Topbar from "./components/Topbar";
+import AppFrame from "./components/AppFrame";
 
 const notoSerif = Noto_Serif({
   subsets: ["latin"],
@@ -29,11 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${notoSerif.variable} ${publicSans.variable}`}>
       <body>
-        <Sidebar />
-        <div className="main-content">
-          <Topbar />
-          {children}
-        </div>
+        <AppFrame>{children}</AppFrame>
       </body>
     </html>
   );
