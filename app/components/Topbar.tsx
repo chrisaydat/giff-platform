@@ -1,5 +1,13 @@
 'use client';
 
+function MenuIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M2.5 4h11M2.5 8h11M2.5 12h11" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 function SearchIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
@@ -28,9 +36,15 @@ function HelpIcon() {
   );
 }
 
-export default function Topbar() {
+export default function Topbar({ onMenuToggle }: { onMenuToggle?: () => void }) {
   return (
     <div className="page-topbar executive-topbar">
+      <div className="executive-topbar-leading">
+        <button type="button" className="mobile-menu-button" onClick={onMenuToggle} aria-label="Open executive navigation">
+          <MenuIcon />
+        </button>
+      </div>
+
       {/* Left: search */}
       <div className="topbar-search">
         <label htmlFor="executive-search" className="sr-only">Search the executive console</label>
@@ -72,7 +86,7 @@ export default function Topbar() {
         </a>
 
         {/* User avatar */}
-        <div className="executive-avatar">EC</div>
+        <div className="executive-avatar executive-avatar-pill">EC</div>
       </div>
     </div>
   );

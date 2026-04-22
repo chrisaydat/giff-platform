@@ -4,6 +4,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { memberRecord } from '../lib/member-demo-data';
 
+function MenuIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M2.5 4h11M2.5 8h11M2.5 12h11" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 function SearchIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -36,21 +44,28 @@ const placeholders: Record<string, string> = {
   '/dashboard': 'Search records…',
   '/membership': 'Search renewal steps…',
   '/dues': 'Search invoices & receipts…',
+  '/dues/pay': 'Search payment flow…',
   '/documents': 'Search archive…',
   '/notifications': 'Search updates…',
   '/settings': 'Search preferences…',
   '/profile': 'Search credentials…',
 };
 
-export default function MemberTopbar() {
+export default function MemberTopbar({ onMenuToggle }: { onMenuToggle?: () => void }) {
   const pathname = usePathname();
   const placeholder = placeholders[pathname] ?? 'Search archive…';
 
   return (
     <header className="member-topbar">
-      <Link href="/dashboard" className="member-topbar-brand" translate="no">
-        GIFF
-      </Link>
+      <div className="member-topbar-leading">
+        <button type="button" className="mobile-menu-button" onClick={onMenuToggle} aria-label="Open member navigation">
+          <MenuIcon />
+        </button>
+
+        <Link href="/dashboard" className="member-topbar-brand" translate="no">
+          GIFF
+        </Link>
+      </div>
 
       <div className="member-search">
         <label htmlFor="member-search" className="sr-only">Search the member archive</label>
@@ -70,15 +85,14 @@ export default function MemberTopbar() {
           <span className="member-count-dot">2</span>
         </Link>
 
-        <button className="member-icon-button" type="button" aria-label="Open help and support">
+        <button className="member-icon-button member-topbar-help" type="button" aria-label="Open help and support">
           <HelpIcon />
         </button>
 
-        <Link href="/profile" className="member-avatar-link" aria-label="Open member profile">
+        <Link href="/profile" className="member-avatar-link member-topbar-avatar" aria-label="Open member profile">
           <span>{memberRecord.initials}</span>
         </Link>
       </div>
     </header>
   );
 }
-

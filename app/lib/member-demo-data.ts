@@ -87,20 +87,154 @@ export const paymentMethods = [
   },
 ] as const;
 
-export const currentInvoices = [
-  {
-    reference: 'INV-2026-1102',
-    description: 'Annual Subscription Dues',
-    dueDate: '6 May 2026',
-    amount: 'GHS 2,500.00',
-    status: 'Awaiting Payment',
-  },
-] as const;
+export const annualDuesInvoice = {
+  reference: 'INV-2026-1102',
+  description: 'Annual Subscription Dues',
+  dueDate: '6 May 2026',
+  amount: 'GHS 2,500.00',
+  status: 'Awaiting Payment',
+} as const;
+
+export const currentInvoices = [annualDuesInvoice] as const;
 
 export const paymentHistory = [
   { date: '12 Apr 2026', reference: 'RCT-2026-0412', amount: 'GHS 450.00', action: 'Download Receipt' },
   { date: '05 Dec 2025', reference: 'RCT-2025-1205', amount: 'GHS 2,500.00', action: 'Download Receipt' },
   { date: '01 Nov 2024', reference: 'RCT-2024-1101', amount: 'GHS 2,200.00', action: 'Download Receipt' },
+] as const;
+
+export const mockMomoFlow = {
+  invoice: annualDuesInvoice,
+  promptReference: 'MOMO-2026-1102',
+  receiptReference: 'RCT-2026-0506',
+  walletName: 'Meridian Freight Finance',
+  merchant: 'GIFF Portal Collections',
+  promptWindow: 'Prompt remains active for 90 seconds.',
+  processingFee: 'GHS 0.00',
+  total: 'GHS 2,500.00',
+  settlementTime: '6 May 2026 · 09:14 AM',
+  networks: [
+    { id: 'mtn', label: 'MTN MoMo', note: 'Fastest for most member wallets' },
+    { id: 'telecel', label: 'Telecel Cash', note: 'Use registered corporate wallet' },
+    { id: 'airteltigo', label: 'AirtelTigo Money', note: 'Prompt sent to finance contact phone' },
+  ],
+  timeline: [
+    {
+      title: 'Invoice matched',
+      detail: 'The active annual dues invoice has been pulled into checkout with the exact amount due.',
+    },
+    {
+      title: 'Prompt sent to phone',
+      detail: 'A mock Mobile Money prompt is sent to the registered number for authorization.',
+    },
+    {
+      title: 'Ledger updated',
+      detail: 'Once approved, the payment is marked received and the receipt is archived to the member ledger.',
+    },
+  ],
+} as const;
+
+export const memberReceipts = [
+  {
+    id: 'RCT-2026-0506',
+    issued: '6 May 2026',
+    receivedFrom: memberRecord.organization,
+    memberId: memberRecord.memberId,
+    branch: 'GIFF Self-Service Portal',
+    paymentModality: 'MTN Mobile Money',
+    lineItems: [
+      { desc: 'Annual Subscription Dues', period: '2026 Membership Cycle', amount: '2,500.00' },
+    ],
+    subtotal: '2,500.00',
+    processingFee: '0.00',
+    total: 'GHS 2,500.00',
+    ledger: {
+      gateway: 'MOMO-2026-1102-2214',
+      institution: 'MTN Mobile Money Ghana',
+      timestamp: '2026-05-06 09:14:22',
+      reconciledBy: 'Member Self-Service Checkout',
+    },
+    stateChanges: [
+      { event: 'Receipt archived', time: '09:14', desc: 'Receipt copied to the member ledger and documents archive.' },
+      { event: 'Invoice settled', time: '09:14', desc: 'Annual dues invoice INV-2026-1102 marked as paid.' },
+      { event: 'MoMo prompt approved', time: '09:13', desc: 'Corporate wallet authorization completed on the registered device.' },
+    ],
+  },
+  {
+    id: 'RCT-2026-0412',
+    issued: '12 Apr 2026',
+    receivedFrom: memberRecord.organization,
+    memberId: memberRecord.memberId,
+    branch: 'Accra Secretariat',
+    paymentModality: 'Corporate Bank Transfer',
+    lineItems: [
+      { desc: 'Training Fee', period: 'April Workshop', amount: '450.00' },
+    ],
+    subtotal: '450.00',
+    processingFee: '0.00',
+    total: 'GHS 450.00',
+    ledger: {
+      gateway: 'TRN-2026-0412-882',
+      institution: 'Ecobank Ghana Plc',
+      timestamp: '2026-04-12 11:08:17',
+      reconciledBy: 'System Auto-Matcher',
+    },
+    stateChanges: [
+      { event: 'Receipt archived', time: '11:08', desc: 'Training payment posted to the ledger and archived.' },
+      { event: 'Funds cleared', time: '11:08', desc: 'Bank transfer confirmed by receiving institution.' },
+      { event: 'Registration released', time: '11:09', desc: 'Member training registration moved to confirmed.' },
+    ],
+  },
+  {
+    id: 'RCT-2025-1205',
+    issued: '5 Dec 2025',
+    receivedFrom: memberRecord.organization,
+    memberId: memberRecord.memberId,
+    branch: 'Accra Secretariat',
+    paymentModality: 'Corporate Bank Transfer',
+    lineItems: [
+      { desc: 'Annual Subscription Dues', period: '2025 Membership Cycle', amount: '2,500.00' },
+    ],
+    subtotal: '2,500.00',
+    processingFee: '0.00',
+    total: 'GHS 2,500.00',
+    ledger: {
+      gateway: 'ANN-2025-1205-419',
+      institution: 'Stanbic Bank Ghana',
+      timestamp: '2025-12-05 14:42:51',
+      reconciledBy: 'System Auto-Matcher',
+    },
+    stateChanges: [
+      { event: 'Standing refreshed', time: '14:43', desc: 'Good-standing flags were refreshed after dues settlement.' },
+      { event: 'Invoice reconciled', time: '14:42', desc: 'Annual dues invoice closed against incoming transfer.' },
+      { event: 'Funds cleared', time: '14:35', desc: 'Bank transfer confirmed by GIFF accounts.' },
+    ],
+  },
+  {
+    id: 'RCT-2024-1101',
+    issued: '1 Nov 2024',
+    receivedFrom: memberRecord.organization,
+    memberId: memberRecord.memberId,
+    branch: 'Accra Secretariat',
+    paymentModality: 'Corporate Bank Transfer',
+    lineItems: [
+      { desc: 'Registration Renewal', period: '2024 Renewal Cycle', amount: '2,200.00' },
+    ],
+    subtotal: '2,200.00',
+    processingFee: '0.00',
+    total: 'GHS 2,200.00',
+    ledger: {
+      gateway: 'REN-2024-1101-672',
+      institution: 'Absa Bank Ghana',
+      timestamp: '2024-11-01 15:24:03',
+      reconciledBy: 'Finance Desk Review',
+    },
+    stateChanges: [
+      { event: 'Receipt archived', time: '15:24', desc: 'Renewal payment stored in the member receipt archive.' },
+      { event: 'Renewal released', time: '15:24', desc: 'Renewal package moved to final secretariat confirmation.' },
+      { event: 'Funds cleared', time: '15:12', desc: 'Bank transfer verified by accounts team.' },
+    ],
+  },
 ] as const;
 
 export const announcements = [
@@ -175,7 +309,7 @@ export const complianceArchive = [
 ] as const;
 
 export const quickActions = [
-  { label: 'Pay Dues', href: '/dues' },
+  { label: 'Pay Dues', href: '/dues/pay' },
   { label: 'Renew Membership', href: '/membership' },
   { label: 'Download ID', href: '/profile' },
   { label: 'Update Profile', href: '/profile' },
@@ -192,4 +326,3 @@ export const preferenceRows = [
   { label: 'Renewal Notices', description: 'Membership renewal prompts and checklist updates.', email: true, sms: false },
   { label: 'Announcements', description: 'Institutional notices, events, and policy updates.', email: true, sms: false },
 ] as const;
-
