@@ -138,7 +138,17 @@ function TrainingIcon() {
   );
 }
 
-function NavLink({ href, icon: Icon, label }: { href: string; icon: () => React.ReactElement; label: string }) {
+function NavLink({
+  href,
+  icon: Icon,
+  label,
+  onNavigate,
+}: {
+  href: string;
+  icon: () => React.ReactElement;
+  label: string;
+  onNavigate?: () => void;
+}) {
   const pathname = usePathname();
   const active = href === '/executive'
     ? pathname === href
@@ -146,6 +156,7 @@ function NavLink({ href, icon: Icon, label }: { href: string; icon: () => React.
   return (
     <Link
       href={href}
+      onClick={onNavigate}
       style={{
         display: 'flex', alignItems: 'center', gap: 9,
         padding: '8px 10px', borderRadius: 7, marginBottom: 1,
@@ -170,24 +181,44 @@ function NavLink({ href, icon: Icon, label }: { href: string; icon: () => React.
   );
 }
 
-export default function Sidebar() {
+export default function Sidebar({
+  mobile = false,
+  onNavigate,
+  onClose,
+}: {
+  mobile?: boolean;
+  onNavigate?: () => void;
+  onClose?: () => void;
+}) {
   return (
-    <aside className="sidebar">
+    <aside
+      className={`sidebar${mobile ? ' mobile-drawer' : ''}`}
+      onClick={mobile ? (event) => event.stopPropagation() : undefined}
+    >
       {/* Logo */}
       <div style={{ padding: '20px 20px 18px', borderBottom: '1px solid rgba(255,255,255,0.06)', flexShrink: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <InstitutionIcon />
-          <div>
-            <div className="executive-sidebar-title">GIFF Executive</div>
-            <div className="executive-sidebar-subtitle">Operations Console</div>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 14 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <InstitutionIcon />
+            <div>
+              <div className="executive-sidebar-title">GIFF Executive</div>
+              <div className="executive-sidebar-subtitle">Operations Console</div>
+            </div>
           </div>
+          {mobile ? (
+            <button type="button" className="mobile-drawer-close" onClick={onClose} aria-label="Close executive navigation">
+              <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+              </svg>
+            </button>
+          ) : null}
         </div>
       </div>
 
       {/* Nav */}
       <nav style={{ flex: 1, padding: '10px', overflowY: 'auto' }}>
         {navItems.map((item) => (
-          <NavLink key={item.href} href={item.href} icon={item.icon} label={item.label} />
+          <NavLink key={item.href} href={item.href} icon={item.icon} label={item.label} onNavigate={onNavigate} />
         ))}
       </nav>
 
@@ -195,6 +226,7 @@ export default function Sidebar() {
       <div style={{ padding: '12px 10px 16px', borderTop: '1px solid rgba(255,255,255,0.06)', flexShrink: 0 }}>
         <Link
           href="/dashboard"
+          onClick={onNavigate}
           style={{
             display: 'flex',
             alignItems: 'center',

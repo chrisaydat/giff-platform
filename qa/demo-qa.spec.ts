@@ -86,6 +86,30 @@ test.describe('GIFF demo QA', () => {
     await expectNoRuntimeIssues(issues);
   });
 
+  test('mock mobile money dues flow completes and returns a receipt', async ({ page }) => {
+    const issues = collectPageIssues(page);
+
+    await page.goto(`${BASE_URL}/dashboard`);
+    await page.getByRole('link', { name: /Pay Now/i }).click();
+    await expect(page).toHaveURL(`${BASE_URL}/dues/pay`);
+    await expect(page.getByRole('heading', { name: /Mobile Money Checkout/i })).toBeVisible();
+
+    await page.getByRole('button', { name: /Request MoMo Prompt/i }).click();
+    await expect(page.getByRole('heading', { name: /Authorize Prompt on Phone/i })).toBeVisible();
+
+    await page.getByRole('button', { name: /I Have Approved the Prompt/i }).click();
+    await expect(page.getByRole('heading', { name: /Payment Confirmed/i })).toBeVisible();
+
+    await page.getByRole('link', { name: /View Receipt/i }).click();
+    await expect(page).toHaveURL(/\/dues\/RCT-2026-0506$/);
+    await expect(page.getByRole('heading', { name: /Payment Receipt/i })).toBeVisible();
+
+    await page.goto(`${BASE_URL}/dues?payment=success`);
+    await expect(page.getByText(/Mock mobile money payment confirmed/i)).toBeVisible();
+
+    await expectNoRuntimeIssues(issues);
+  });
+
   test('executive desktop flow uses separate routes and returns to member side', async ({ page }) => {
     const issues = collectPageIssues(page);
 
@@ -131,9 +155,24 @@ test.describe('GIFF demo QA', () => {
 
     await page.setViewportSize({ width: 390, height: 844 });
 
+    await page.goto(`${BASE_URL}/dashboard`);
+    await expect(page.getByRole('button', { name: /Open member navigation/i })).toBeVisible();
+    await page.getByRole('button', { name: /Open member navigation/i }).click();
+    await expect(page.getByRole('button', { name: /Close member navigation/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Member Profile/i })).toBeVisible();
+    await page.getByRole('button', { name: /Close member navigation/i }).click();
+
+    await page.goto(`${BASE_URL}/executive`);
+    await expect(page.getByRole('button', { name: /Open executive navigation/i })).toBeVisible();
+    await page.getByRole('button', { name: /Open executive navigation/i }).click();
+    await expect(page.getByRole('button', { name: /Close executive navigation/i })).toBeVisible();
+    await expect(page.locator('.sidebar.mobile-drawer').getByRole('link', { name: /^Assessment$/ })).toBeVisible();
+    await page.getByRole('button', { name: /Close executive navigation/i }).click();
+
     const mobileChecks = [
       { path: '/dashboard', heading: /Welcome back, Kofi Mensah/i },
       { path: '/profile', heading: /Member Profile/i },
+      { path: '/dues/pay', heading: /Mobile Money Checkout/i },
       { path: '/executive', heading: /Executive Overview/i },
       { path: '/executive/fees', heading: /Dues & Fees Administration/i },
       { path: '/executive/training', heading: /Training & Support/i },

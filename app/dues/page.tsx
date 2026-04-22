@@ -1,7 +1,20 @@
 import Link from 'next/link';
-import { currentInvoices, paymentHistory, paymentMethods } from '../lib/member-demo-data';
+import { currentInvoices, memberRecord, mockMomoFlow, paymentHistory, paymentMethods } from '../lib/member-demo-data';
 
-export default function DuesPage() {
+type DuesPageProps = {
+  searchParams?: Promise<{
+    payment?: string;
+  }>;
+};
+
+export default async function DuesPage({ searchParams }: DuesPageProps) {
+  const params = (await searchParams) ?? {};
+  const paymentSettled = params.payment === 'success';
+  const invoiceRows = currentInvoices.map((invoice) => ({
+    ...invoice,
+    status: paymentSettled ? 'Paid' : invoice.status,
+  }));
+
   return (
     <>
       <section className="member-hero">
@@ -12,17 +25,35 @@ export default function DuesPage() {
         </div>
       </section>
 
+      {paymentSettled ? (
+        <section className="member-payment-banner success">
+          <div>
+            <strong>Mock mobile money payment confirmed.</strong>
+            <p>
+              Invoice {mockMomoFlow.invoice.reference} has been marked paid for demo purposes and receipt{' '}
+              <span translate="no">{mockMomoFlow.receiptReference}</span> is now available.
+            </p>
+          </div>
+          <Link href={`/dues/${mockMomoFlow.receiptReference}`}>View receipt</Link>
+        </section>
+      ) : null}
+
       <section className="member-grid member-grid-dues">
         <div className="member-stack">
           <article className="member-surface">
             <div className="member-panel-heading compact">
               <div>
                 <h2>Current Balance</h2>
-                <p>Total outstanding on your member account.</p>
+                <p>{paymentSettled ? 'The annual dues invoice has been cleared in this demo flow.' : 'Total outstanding on your member account.'}</p>
               </div>
             </div>
-            <div className="member-kpi">GHS 2,500.00</div>
-            <Link href="/membership" className="member-action-button">Pay Dues</Link>
+            <div className="member-kpi">{paymentSettled ? 'GHS 0.00' : memberRecord.outstandingDues}</div>
+            <Link
+              href={paymentSettled ? `/dues/${mockMomoFlow.receiptReference}` : '/dues/pay'}
+              className="member-action-button"
+            >
+              {paymentSettled ? 'Download Receipt' : 'Pay Dues'}
+            </Link>
           </article>
 
           <article className="member-surface">
@@ -68,16 +99,27 @@ export default function DuesPage() {
                     <th>Due Date</th>
                     <th>Amount</th>
                     <th>Status</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {currentInvoices.map((invoice) => (
+                  {invoiceRows.map((invoice) => (
                     <tr key={invoice.reference}>
                       <td translate="no">{invoice.reference}</td>
                       <td>{invoice.description}</td>
                       <td>{invoice.dueDate}</td>
                       <td>{invoice.amount}</td>
-                      <td><span className="member-status-chip warning">{invoice.status}</span></td>
+                      <td>
+                        <span className={`member-status-chip ${paymentSettled ? 'success' : 'warning'}`}>{invoice.status}</span>
+                      </td>
+                      <td>
+                        <Link
+                          href={paymentSettled ? `/dues/${mockMomoFlow.receiptReference}` : '/dues/pay'}
+                          className="member-tertiary-link"
+                        >
+                          {paymentSettled ? 'View Receipt' : 'Pay with MoMo'}
+                        </Link>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -110,7 +152,7 @@ export default function DuesPage() {
                       <td translate="no">{payment.reference}</td>
                       <td>{payment.amount}</td>
                       <td>
-                        <Link href="/dues/RCT-2026-0412" className="member-tertiary-link">{payment.action}</Link>
+                        <Link href={`/dues/${payment.reference}`} className="member-tertiary-link">{payment.action}</Link>
                       </td>
                     </tr>
                   ))}

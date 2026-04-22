@@ -106,17 +106,23 @@ function NavLink({
   label,
   icon: Icon,
   compact = false,
+  onNavigate,
 }: {
   href: string;
   label: string;
   icon: () => ReactElement;
   compact?: boolean;
+  onNavigate?: () => void;
 }) {
   const pathname = usePathname();
   const active = pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <Link href={href} className={`member-nav-link${active ? ' active' : ''}${compact ? ' compact' : ''}`}>
+    <Link
+      href={href}
+      onClick={onNavigate}
+      className={`member-nav-link${active ? ' active' : ''}${compact ? ' compact' : ''}`}
+    >
       <span className="member-nav-icon">
         <Icon />
       </span>
@@ -125,28 +131,48 @@ function NavLink({
   );
 }
 
-export default function MemberSidebar() {
+export default function MemberSidebar({
+  mobile = false,
+  onNavigate,
+  onClose,
+}: {
+  mobile?: boolean;
+  onNavigate?: () => void;
+  onClose?: () => void;
+}) {
   return (
-    <aside className="member-sidebar">
+    <aside
+      className={`member-sidebar${mobile ? ' mobile-drawer' : ''}`}
+      onClick={mobile ? (event) => event.stopPropagation() : undefined}
+    >
       <div className="member-sidebar-brand">
-        <Link href="/dashboard" className="member-brand-link">
-          <CrestIcon />
-          <div>
-            <div className="member-brand-name">GIFF Portal</div>
-            <div className="member-brand-tagline">The Modern Archive</div>
-          </div>
-        </Link>
+        <div className="member-brand-row">
+          <Link href="/dashboard" onClick={onNavigate} className="member-brand-link">
+            <CrestIcon />
+            <div>
+              <div className="member-brand-name">GIFF Portal</div>
+              <div className="member-brand-tagline">The Modern Archive</div>
+            </div>
+          </Link>
+          {mobile ? (
+            <button type="button" className="mobile-drawer-close" onClick={onClose} aria-label="Close member navigation">
+              <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+              </svg>
+            </button>
+          ) : null}
+        </div>
       </div>
 
       <nav className="member-nav" aria-label="Member navigation">
         {items.map((item) => (
-          <NavLink key={item.href} href={item.href} label={item.label} icon={item.icon} />
+          <NavLink key={item.href} href={item.href} label={item.label} icon={item.icon} onNavigate={onNavigate} />
         ))}
       </nav>
 
       <div className="member-sidebar-footer">
-        <NavLink href="/profile" label="Member Profile" icon={ProfileIcon} compact />
-        <NavLink href="/" label="Logout" icon={LogoutIcon} compact />
+        <NavLink href="/profile" label="Member Profile" icon={ProfileIcon} compact onNavigate={onNavigate} />
+        <NavLink href="/" label="Logout" icon={LogoutIcon} compact onNavigate={onNavigate} />
       </div>
     </aside>
   );

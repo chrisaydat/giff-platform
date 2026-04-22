@@ -56,7 +56,7 @@ export default function DashboardPage() {
                 </div>
               </div>
               <div className="member-kpi">{memberRecord.outstandingDues}</div>
-              <Link href="/dues" className="member-action-button">Pay Now</Link>
+              <Link href="/dues/pay" className="member-action-button">Pay Now</Link>
             </article>
 
             <article className="member-surface">
