@@ -5,12 +5,17 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const navItems: { label: string; href: string; icon: () => React.ReactElement }[] = [
-  { label: 'Dashboard',  href: '/dashboard',  icon: DashIcon },
-  { label: 'Membership', href: '/membership', icon: MembersIcon },
-  { label: 'Dues',       href: '/dues',       icon: DuesIcon },
-  { label: 'Accounts',   href: '/accounts',   icon: AccountsIcon },
-  { label: 'HR',         href: '/hr',         icon: HRIcon },
-  { label: 'Audit',      href: '/audit',      icon: AuditIcon },
+  { label: 'Overview', href: '/executive', icon: DashIcon },
+  { label: 'Assessment', href: '/executive/assessment', icon: AssessmentIcon },
+  { label: 'Membership', href: '/executive/members', icon: MembersIcon },
+  { label: 'Dues & Fees', href: '/executive/fees', icon: FeesIcon },
+  { label: 'Accounts', href: '/accounts', icon: AccountsIcon },
+  { label: 'HR', href: '/hr', icon: HRIcon },
+  { label: 'Audit', href: '/audit', icon: AuditIcon },
+  { label: 'Migration', href: '/executive/migration', icon: MigrationIcon },
+  { label: 'Integrations', href: '/executive/integrations', icon: IntegrationsIcon },
+  { label: 'Training', href: '/executive/training', icon: TrainingIcon },
+  { label: 'Settings', href: '/executive/settings', icon: SettingsIcon },
 ];
 
 function InstitutionIcon() {
@@ -50,12 +55,11 @@ function MembersIcon() {
   );
 }
 
-function DuesIcon() {
+function AssessmentIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.4" opacity=".9"/>
-      <path d="M1 7h14" stroke="currentColor" strokeWidth="1.4" opacity=".9"/>
-      <circle cx="5" cy="11" r="1" fill="currentColor" opacity=".7"/>
+      <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.4" opacity=".9" />
+      <path d="M5 5h6M5 8h6M5 11h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" opacity=".9" />
     </svg>
   );
 }
@@ -65,6 +69,15 @@ function AccountsIcon() {
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
       <path d="M2 12l3-4 3 2 3-5 3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity=".9"/>
       <path d="M2 14h12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" opacity=".5"/>
+    </svg>
+  );
+}
+
+function FeesIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <rect x="1.5" y="3" width="13" height="10" rx="2" stroke="currentColor" strokeWidth="1.4" opacity=".9" />
+      <path d="M5 8h6M8 5v6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" opacity=".9" />
     </svg>
   );
 }
@@ -97,9 +110,39 @@ function AuditIcon() {
   );
 }
 
+function MigrationIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M3 4h7M10 2l2 2-2 2M13 12H6M6 10l-2 2 2 2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity=".9" />
+    </svg>
+  );
+}
+
+function IntegrationsIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <circle cx="4" cy="8" r="2" stroke="currentColor" strokeWidth="1.4" opacity=".9" />
+      <circle cx="12" cy="4" r="2" stroke="currentColor" strokeWidth="1.4" opacity=".9" />
+      <circle cx="12" cy="12" r="2" stroke="currentColor" strokeWidth="1.4" opacity=".9" />
+      <path d="M5.7 7.1L10.3 4.9M5.7 8.9l4.6 2.2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" opacity=".9" />
+    </svg>
+  );
+}
+
+function TrainingIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M2 3.5L8 1l6 2.5L8 6 2 3.5z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" opacity=".9" />
+      <path d="M4 6.5v3.8C4 11.8 6 13 8 13s4-1.2 4-2.7V6.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" opacity=".9" />
+    </svg>
+  );
+}
+
 function NavLink({ href, icon: Icon, label }: { href: string; icon: () => React.ReactElement; label: string }) {
   const pathname = usePathname();
-  const active = pathname === href || pathname.startsWith(href + '/');
+  const active = href === '/executive'
+    ? pathname === href
+    : pathname === href || pathname.startsWith(href + '/');
   return (
     <Link
       href={href}
@@ -128,9 +171,6 @@ function NavLink({ href, icon: Icon, label }: { href: string; icon: () => React.
 }
 
 export default function Sidebar() {
-  const pathname = usePathname();
-  const settingsActive = pathname === '/settings';
-
   return (
     <aside className="sidebar">
       {/* Logo */}
@@ -138,8 +178,8 @@ export default function Sidebar() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <InstitutionIcon />
           <div>
-            <div style={{ color: '#fff', fontWeight: 700, fontSize: 14, lineHeight: '1.2', letterSpacing: '-0.01em' }}>GIFF Portal</div>
-            <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, marginTop: 1, textTransform: 'uppercase', letterSpacing: '0.1em' }}>The Digital Estate</div>
+            <div className="executive-sidebar-title">GIFF Executive</div>
+            <div className="executive-sidebar-subtitle">Operations Console</div>
           </div>
         </div>
       </div>
@@ -153,29 +193,25 @@ export default function Sidebar() {
 
       {/* Bottom: Settings + User Profile */}
       <div style={{ padding: '12px 10px 16px', borderTop: '1px solid rgba(255,255,255,0.06)', flexShrink: 0 }}>
-        {/* Settings link */}
         <Link
-          href="/settings"
+          href="/dashboard"
           style={{
-            display: 'flex', alignItems: 'center', gap: 9,
-            padding: '8px 10px', borderRadius: 7, marginBottom: 4,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 9,
+            padding: '8px 10px',
+            borderRadius: 7,
+            marginBottom: 4,
             textDecoration: 'none',
-            background: settingsActive ? 'rgba(5,112,222,0.18)' : 'transparent',
-            color: settingsActive ? '#60a5fa' : 'rgba(255,255,255,0.5)',
-            fontSize: 13, fontWeight: settingsActive ? 600 : 400,
-            transition: 'background 0.1s, color 0.1s', position: 'relative',
+            color: 'rgba(255,255,255,0.56)',
+            fontSize: 13,
+            fontWeight: 500,
           }}
         >
-          {settingsActive && (
-            <span style={{
-              position: 'absolute', left: 0, top: '20%', bottom: '20%',
-              width: 3, borderRadius: '0 3px 3px 0', background: '#0570de',
-            }} />
-          )}
-          <span style={{ color: settingsActive ? '#60a5fa' : 'rgba(255,255,255,0.35)', flexShrink: 0 }}>
-            <SettingsIcon />
+          <span style={{ color: 'rgba(255,255,255,0.35)', flexShrink: 0 }}>
+            <MembersIcon />
           </span>
-          Settings
+          Return to Member Portal
         </Link>
 
         {/* Divider */}

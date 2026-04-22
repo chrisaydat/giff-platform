@@ -86,17 +86,16 @@ export default function AuditPage() {
   return (
     <>
       <div className="page-title-area">
-        <h1 style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--gray-900)' }}>
-          Traceability Console
-        </h1>
-        <p style={{ color: 'var(--gray-500)', fontSize: 13.5, marginTop: 4 }}>
+        <div className="executive-eyebrow">Audit</div>
+        <h1 className="executive-display executive-display-sm">Traceability Console</h1>
+        <p className="executive-lead executive-lead-compact">
           A comprehensive, immutable record of systemic operations, policy modifications, and user access across the digital estate.
         </p>
       </div>
 
       <div className="page-body">
         {/* Summary Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 24 }}>
+        <div className="executive-grid executive-grid-3 executive-section">
           {/* Card 1: Total Events + mini sparkline */}
           <div className="metric-card">
             <span className="metric-label">TOTAL EVENTS (24H)</span>
@@ -155,7 +154,7 @@ export default function AuditPage() {
         </div>
 
         {/* Filter Bar */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+        <div className="executive-filter-bar">
           <button className="filter-btn">
             <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.3"/><path d="M1 5h12M5 1v4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
             Past 7 Days
@@ -170,13 +169,13 @@ export default function AuditPage() {
             <option>Warning</option>
             <option>Info</option>
           </select>
-          <a href="#" style={{ marginLeft: 'auto', fontSize: 12.5, color: 'var(--blue)', textDecoration: 'none', fontWeight: 500 }}>
+          <a href="#" className="executive-filter-link">
             ↓ Export Log (CSV)
           </a>
         </div>
 
         {/* Event List + Inspection Panel */}
-        <div style={{ display: 'grid', gridTemplateColumns: showPanel ? '1fr 380px' : '1fr', gap: 20 }}>
+        <div className={`executive-grid executive-grid-audit${showPanel ? ' panel-open' : ''}`}>
           {/* Event List */}
           <div className="card" style={{ overflow: 'hidden' }}>
             {auditEvents.map((event) => (
@@ -224,7 +223,7 @@ export default function AuditPage() {
           {showPanel && selectedEvent && (
             <div className="card">
               <div className="card-header">
-                <span style={{ fontWeight: 600, fontSize: 15 }}>Event Inspection</span>
+                <span className="executive-panel-title">Event Inspection</span>
                 <button className="btn btn-ghost btn-sm" onClick={() => setShowPanel(false)} style={{ padding: '0 6px' }}>✕</button>
               </div>
               <div className="card-body" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -237,7 +236,7 @@ export default function AuditPage() {
                 </div>
 
                 {/* Timestamp + IP */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div className="executive-grid executive-grid-modal" style={{ gap: 12 }}>
                   <div>
                     <div className="section-label" style={{ marginBottom: 4 }}>TIMESTAMP</div>
                     <div style={{ fontSize: 12.5, color: 'var(--gray-700)', whiteSpace: 'pre-line', lineHeight: 1.5 }}>{selectedEvent.timestamp}</div>

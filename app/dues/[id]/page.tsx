@@ -38,20 +38,20 @@ export default function ReconciliationPage() {
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
             <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          Back to Dues Registry
+          Back to Dues & Payments
         </Link>
 
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
           <div>
             <h1 className="serif" style={{ fontSize: 30, fontWeight: 700, color: 'var(--on-surface)', lineHeight: 1.1 }}>
-              Reconciliation Record
+              Payment Receipt
             </h1>
             <p style={{ fontSize: 13.5, color: 'var(--on-surface-variant)', marginTop: 4 }}>
-              Transaction {reconciliation.transactionRef} · {reconciliation.issued}
+              Receipt {reconciliation.receiptNo} · {reconciliation.issued}
             </p>
           </div>
           <span className="badge badge-success" style={{ fontSize: 12, padding: '5px 12px', marginTop: 6 }}>
-            Payment Reconciled
+            Archived Receipt
           </span>
         </div>
       </div>
@@ -87,7 +87,7 @@ export default function ReconciliationPage() {
                   <div style={{ fontSize: 12, color: 'var(--on-surface-variant)' }}>{reconciliation.branch}</div>
                 </div>
                 <div>
-                  <div className="field-label">Payment Modality</div>
+                  <div className="field-label">Payment Method</div>
                   <div style={{ fontSize: 13.5, fontWeight: 500, color: 'var(--on-surface)', marginTop: 4 }}>{reconciliation.paymentModality}</div>
                 </div>
               </div>
@@ -165,19 +165,19 @@ export default function ReconciliationPage() {
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
                 <path d="M3 12h10M8 3v7M5 7l3 3 3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              Print Official Document
+              Print Receipt
             </button>
             <button className="btn btn-secondary" style={{ width: '100%', justifyContent: 'center', height: 38 }}>
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
                 <path d="M3 12h10M8 3v7M5 7l3 3 3-3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              Download PDF Archive
+              Download PDF
             </button>
 
             {/* Ledger Metadata */}
             <div className="card-surface" style={{ marginTop: 8 }}>
               <div style={{ padding: '14px 16px 10px' }}>
-                <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--on-surface)', marginBottom: 12 }}>Ledger Metadata</div>
+                <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--on-surface)', marginBottom: 12 }}>Transaction Details</div>
                 {[
                   ['Gateway Ref', reconciliation.ledger.gateway],
                   ['Institution', reconciliation.ledger.institution],
@@ -195,7 +195,7 @@ export default function ReconciliationPage() {
             {/* State Changes */}
             <div className="card-surface">
               <div style={{ padding: '14px 16px 10px' }}>
-                <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--on-surface)', marginBottom: 12 }}>State Changes</div>
+                <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--on-surface)', marginBottom: 12 }}>Processing Trail</div>
                 {reconciliation.stateChanges.map((sc, i) => (
                   <div key={i} className="state-row">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>

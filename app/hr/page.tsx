@@ -62,17 +62,16 @@ export default function HRPage() {
   return (
     <>
       <div className="page-title-area">
-        <h1 style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--gray-900)' }}>
-          Workforce Operations
-        </h1>
-        <p style={{ color: 'var(--gray-500)', fontSize: 13.5, marginTop: 4 }}>
+        <div className="executive-eyebrow">Workforce</div>
+        <h1 className="executive-display executive-display-sm">Workforce Operations</h1>
+        <p className="executive-lead executive-lead-compact">
           Manage institutional staffing, coordinate departmental resources, and review administrative actions.
         </p>
       </div>
 
       <div className="page-body">
         {/* 4 Stat Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 24 }}>
+        <div className="executive-grid executive-grid-4 executive-section">
           {statCards.map((card) => (
             <div key={card.label} className="metric-card">
               <span className="metric-label">{card.label}</span>
@@ -83,11 +82,11 @@ export default function HRPage() {
         </div>
 
         {/* Action Center + Payroll */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 20, marginBottom: 24 }}>
+        <div className="executive-grid executive-grid-main-aside executive-section">
           {/* Action Center + HR Workspace in one card */}
           <div className="card">
             <div className="card-body">
-              <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 14 }}>Action Center</div>
+              <div className="executive-panel-title" style={{ marginBottom: 14 }}>Action Center</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <button
                   className="btn btn-dark"
@@ -119,7 +118,7 @@ export default function HRPage() {
             </div>
             <div className="divider" />
             <div style={{ padding: '14px 20px 8px' }}>
-              <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--gray-900)', marginBottom: 4 }}>HR Workspace</div>
+              <div className="executive-panel-title" style={{ marginBottom: 4 }}>HR Workspace</div>
             </div>
             {workspaceItems.map((item) => (
               <div key={item.label} className="workspace-item">
@@ -137,7 +136,7 @@ export default function HRPage() {
           {/* Payroll Readiness */}
           <div className="card">
             <div className="card-header">
-              <span style={{ fontWeight: 600, fontSize: 14 }}>Payroll Readiness Status</span>
+              <span className="executive-panel-title">Payroll Readiness Status</span>
             </div>
             <div className="card-body">
               {payrollStatus.map((item, i) => (
@@ -178,7 +177,7 @@ export default function HRPage() {
         {/* Institutional Directory */}
         <div className="card">
           <div className="card-header">
-            <div style={{ fontWeight: 600, fontSize: 15 }}>Institutional Directory</div>
+            <div className="executive-panel-title">Institutional Directory</div>
             <a href="#" style={{ fontSize: 13, color: 'var(--blue)', textDecoration: 'none', fontWeight: 500 }}>
               View Full Registry →
             </a>
@@ -232,11 +231,11 @@ export default function HRPage() {
         <div className="modal-overlay" onClick={() => setShowAddModal(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <span style={{ fontWeight: 700, fontSize: 15 }}>Add New Staff Member</span>
+              <span className="executive-panel-title">Add New Staff Member</span>
               <button className="btn btn-ghost btn-sm" onClick={() => setShowAddModal(false)}>✕</button>
             </div>
             <div className="modal-body">
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+              <div className="executive-grid executive-grid-modal">
                 <div className="form-group">
                   <label className="label">First Name</label>
                   <input className="input" placeholder="e.g. Kofi" />
